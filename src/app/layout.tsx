@@ -3,7 +3,9 @@ import { Hind_Siliguri } from "next/font/google";
 import "./globals.css";
 
 // here navbar is imported
+// priceTicker is imported
 import Navbar from "@/components/Navbar";
+import PriceTicker from "@/components/PriceTicker";
 
 const hindSiliguri = Hind_Siliguri({
   subsets : ["bengali", "latin"],
@@ -27,7 +29,7 @@ export default function RootLayout({
       <body className={`${hindSiliguri.variable} font-sans antialiased`}>
         {/* navbar will be on all page */}
         <Navbar />
-        {/* page content */}
+        <PriceTicker/>
         {children}
       </body>
     </html>
