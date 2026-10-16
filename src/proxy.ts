@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getSessionCookie } from "better-auth/cookies";
 
 // middleware function
-export async function middleware(request : NextRequest){
+export async function proxy(request : NextRequest){
     const {pathname} = request.nextUrl;
     if(pathname.startsWith("/product/")){
         const sessionCookie = getSessionCookie(request);
@@ -16,7 +16,7 @@ export async function middleware(request : NextRequest){
     return NextResponse.next();
 }
 
-// middleware path
+// proxy path
 export const config ={matcher: ["/product/:path*"],};
 
 
