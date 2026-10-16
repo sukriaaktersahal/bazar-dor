@@ -10,6 +10,23 @@ const db = client.db(process.env.MONGODB_DB || "bazardor");
 // betterAuth configuration setup
 export const auth = betterAuth({
   database : mongodbAdapter(db,{client,}), emailAndPassword :{enabled : true,},
+
+//   social providers
+socialProviders:{
+    google:{
+        clientId : process.env.GOOGLE_CLIENT_ID!,
+        clientSecret : process.env.GOOGLE_CLIENT_SECRET!,
+        },
+},
+
+// account linking
+account:{
+    accountLinking:{
+        enabled : true,
+        trustedProviders : ["google"],
+    },
+},
+
   secret : process.env.BETTER_AUTH_SECRET!,
   baseURL : process.env.BETTER_AUTH_URL!,
 });
