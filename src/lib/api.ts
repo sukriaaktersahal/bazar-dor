@@ -29,6 +29,7 @@ export async function getAllProducts() : Promise<Product[]>{
 // fetching product according to category
 export async function getProductsByCategory(slug : string) : Promise<Product[]>{
   const data = await fetchWithFallback(`/products?category=${slug}`);
+  if(Array.isArray(data)) return data;
   return data.products || data.data || [];
 }
 
@@ -43,9 +44,25 @@ export async function getProductBySlug(slug : string) : Promise<Product | null> 
   }
 }
 
+// interface raw category
+interface RawCategory{
+  id : string;
+  slug : string;
+  nameBn? : string;
+  name? : string;
+  icon? : string;
+  image? : string;
+}
 // fetch all category
-export async function getAllCategories() : Promise<Category[]>{
+export async function getAllCategories(): Promise<Category[]>{
   const data = await fetchWithFallback("/categories");
-  return data.categories || data.data || [];
+  const raw : RawCategory[] = Array.isArray(data)? data : data.categories || data.data || [];
+
+  return raw.map((c)=> ({
+    id : c.id,
+    slug : c.slug,
+    name : c.nameBn || c.name ||c.slug,
+    icon : c.icon || c.image || "🛒",
+  }));
 }
 

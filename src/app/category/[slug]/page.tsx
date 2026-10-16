@@ -25,14 +25,14 @@ export default async function CategoryPage({ params } : Props){
             <nav className = "text-sm text-gray-500 mb-4">
                 <Link href = "/" className = "hover:text-green-700"> হোম </Link>
                 <span className = "mx-2"> / </span>
-                <span className = "text-gray-900"> {category?.name || slug} </span>
+                <span className = "text-gray-900"> {category.name} </span>
             </nav>
 
             {/* header */}
             <div className = "flex items-center gap-3 mb-6">
-                <div className = "w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-3xl">{category?.icon || "🛒"}</div>
+                <div className = "w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-3xl">{category.icon}</div>
                 <div>
-                    <h1 className = "text-2xl font-bold text-gray-900">{category?.name || slug}</h1>
+                    <h1 className = "text-2xl font-bold text-gray-900">{category.name}</h1>
                     <p className = "text-sm text-gray-500">এই ক্যাটাগরির সব পণ্যের আজকের দাম</p>
                 </div>
             </div>
@@ -45,7 +45,7 @@ export default async function CategoryPage({ params } : Props){
                     <Link href = "/" className = "inline-block bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-md text-sm">হোম পেজে ফিরে যান</Link>
                 </div>
             ):(
-                <div className = "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">{products.map((product) => (<ProductCard key={product.id} product={product} />))}</div>
+                <div className = "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">{products.map((product) => (<ProductCard key = {product.id} product={product} />))}</div>
             )}
         </main>
     );

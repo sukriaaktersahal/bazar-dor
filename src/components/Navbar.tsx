@@ -3,22 +3,28 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { getAllCategories } from "@/lib/api";
+import { Category } from "@/types";
 
-// categories for navbar
-const categories = [
-    { name : "চাল", slug : "chal"},
-    { name : "ডাল", slug : "dal"},
-    { name : "তেল", slug : "tel"},
-    { name : "সবজি", slug : "sabji"},
-    { name : "মাছ", slug : "mach"},
-    { name : "মাংস", slug : "mangsho"},
-    { name : "মসলা", slug : "mosla"},
-];
-
+// navbar function
 export default function Navbar(){
     const pathname = usePathname();
+    const [categories, setCategories] = useState<Category[]>([]);
+
+    useEffect(()=> {
+        async function load(){
+            try{
+                const data = await getAllCategories();
+                setCategories(data);
+            }catch(err){
+                console.error("Category load failed:", err);
+            }
+        }
+        load();
+    }, []);
     const today = new Date();
-    const banglaDate = today.toLocaleDateString("bn-BD", {
+    const banglaDate = today.toLocaleDateString("bn-BD",{
         year : "numeric",
         month : "long",
         day : "numeric",
