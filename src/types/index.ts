@@ -42,10 +42,25 @@ export interface Category{
 export function unitToBengali(unit : string) : string{
   const map : Record<string, string> ={
     kg : "প্রতি কেজি",
+    kilogram: "প্রতি কেজি",
     litre : "প্রতি লিটার",
+    liter : "প্রতি লিটার",
+    ltr : "প্রতি লিটার",
     dozen : "প্রতি ডজন",
     piece : "প্রতি পিস",
+    pcs : "প্রতি পিস",
     gram : "প্রতি গ্রাম",
+    gm : "প্রতি গ্রাম",
+    "100 gram" : "প্রতি ১০০ গ্রাম",
+    "100gram" : "প্রতি ১০০ গ্রাম",
+    hundred : "প্রতি ১০০ গ্রাম",
+    bundle : "প্রতি আঁটি",
+    hali : "প্রতি হালি",
+    pack : "প্রতি প্যাক",
+    packet : "প্রতি প্যাক",
   };
-  return map[unit] || `প্রতি ${unit}`;
+
+//   while unit is empty
+  if(!unit) return "";
+  return map[unit.toLowerCase()] || `প্রতি ${unit}`;
 }
