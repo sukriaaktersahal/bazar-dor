@@ -3,19 +3,23 @@
 
 import {useState} from "react";
 import Link from "next/link";
-import {useRouter} from "next/navigation";
+import {useRouter, useSearchParams} from "next/navigation";
 import {signIn} from "@/lib/auth-client";
 import toast from "react-hot-toast";
 
 // sign in page function
 export default function SignInPage(){
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email : "",
     password : "",
   });
+
+// redirect parameter
+const redirectTo =searchParams.get("redirect") || "/";
 
 //   handle change function
   function handleChange(e: React.ChangeEvent<HTMLInputElement>){
@@ -37,14 +41,14 @@ export default function SignInPage(){
     setLoading(false);
 
     // if sign in failed
-    if (error){
+    if(error){
       toast.error(error.message || "সাইন ইন ব্যর্থ হয়েছে");
       return;
     }
 
     // if sign in success
     toast.success("সফলভাবে সাইন ইন হয়েছে!");
-    setTimeout(()=> router.push("/"), 500);
+    setTimeout(()=> router.push(redirectTo), 500);
   }
 
   async function handleGoogleSignIn(){
@@ -52,7 +56,7 @@ export default function SignInPage(){
       setLoading(true);
       await signIn.social({
         provider: "google",
-        callbackURL: "/",
+        callbackURL: redirectTo,
       });
     }catch{
       toast.error("Google দিয়ে সাইন ইন ব্যর্থ হয়েছে");
