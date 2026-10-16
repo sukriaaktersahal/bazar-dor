@@ -6,10 +6,10 @@
 
 ## 🔗 লিংক
 
-- **Live Site:** [bazar-dor.vercel.app](https://bazar-dor.vercel.app) <!-- পরে deploy করে update করো -->
+- **Live Site:** https://bazar-dor-tawny-xi.vercel.app
 - **GitHub Repo:** [github.com/sukriaaktersahal/bazar-dor](https://github.com/sukriaaktersahal/bazar-dor)
 - **API:** [openapi.programming-hero.com/api/bazardor](https://openapi.programming-hero.com/api/bazardor)
-
+"
 ## ✨ Key Features
 
 **📊 আজকের বাজারের দাম** — API থেকে লাইভ ডেটা এনে আজকের দাম, দাম বেড়েছে ▲ এবং কমেছে ▼ — এভাবে আলাদা সেকশনে দেখানো।
