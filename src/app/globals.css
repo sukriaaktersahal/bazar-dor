@@ -1,64 +1,53 @@
 /* importing tailwindCss for bazardor */
 @import "tailwindcss";
 
-/* configuring theme */
-@theme inline {
-  --font-sans : var(--font-hind-siliguri), system-ui, sans-serif;
-}
-
 /* root */
-:root {
-  /* brand color (green - agriculture and market theme) */
+:root{
   --brand-green : #16a34a;
   --brand-green-dark : #15803d;
   --brand-green-light : #dcfce7;
 
   /* background */
-  --background : #f9fafb;
+  --background: #f9fafb;
   --foreground: #171717;
 }
 
-body {
+/* body */
+body{
   background : var(--background);
   color : var(--foreground);
   font-family : var(--font-hind-siliguri), system-ui, sans-serif;
 }
 
-/* keyframes for price ticker scrolling */
-@keyframes marquee {
-  from {
+/* marquee keyframes for scrolling */
+@keyframes marquee{
+  from{
     transform : translateX(0);
   }
-  to {
-    transform: translateX(-50%);
+  to{
+    transform : translateX(-50%);
   }
 }
 
-.animate-marquee {
+.animate-marquee{
   animation : marquee 40s linear infinite;
 }
 
-.animate-marquee:hover {
+.animate-marquee:hover{
   animation-play-state : paused;
 }
 
 /* hiding scrollbar for mobile view */
-.no-scrollbar::-webkit-scrollbar {
+.no-scrollbar::-webkit-scrollbar{
   display : none;
 }
-
-.no-scrollbar {
+.no-scrollbar{
   -ms-overflow-style : none;
   scrollbar-width : none;
 }
 
-/* bangla digit utility */
-.bn-number {
+/* bangla digit */
+.bn-number{
   font-family : var(--font-hind-siliguri), system-ui, sans-serif;
-  font-feature-settings: "tnum";
+  font-feature-settings : "tnum";
 }
-
- 
-
-
-
