@@ -6,6 +6,7 @@ import "./globals.css";
 // priceTicker is imported
 import Navbar from "@/components/Navbar";
 import PriceTicker from "@/components/PriceTicker";
+import { Toaster } from "react-hot-toast";
 
 const hindSiliguri = Hind_Siliguri({
   subsets : ["bengali", "latin"],
@@ -31,6 +32,7 @@ export default function RootLayout({
         <Navbar />
         <PriceTicker/>
         {children}
+        <Toaster position = "top-center" toastOptions={{duration: 3000, style : {fontFamily : "var(--font-hind-siliguri)",},}}/>
       </body>
     </html>
   );
