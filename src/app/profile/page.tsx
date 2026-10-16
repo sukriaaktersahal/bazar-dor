@@ -60,22 +60,22 @@ export default function ProfilePage(){
             </div>
 
             {/* account info card */}
-            <div className ="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+            <div className = "bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
                 <h3 className = "font-semibold text-gray-900 mb-4">অ্যাকাউন্ট তথ্য</h3>
                 <div className = "space-y-3">
-                    <div className="flex justify-between py-2 border-b border-gray-100">
-                        <span className="text-sm text-gray-500">ইউজার আইডি</span>
-                        <span className="text-sm text-gray-900 font-mono truncate max-w-xs">{user.id}</span>
+                    <div className = "flex justify-between py-2 border-b border-gray-100">
+                        <span className = "text-sm text-gray-500">ইউজার আইডি</span>
+                        <span className = "text-sm text-gray-900 font-mono truncate max-w-xs">{user.id}</span>
                     </div>
 
-                    <div className="flex justify-between py-2 border-b border-gray-100">
-                        <span className="text-sm text-gray-500">ইমেইল ভেরিফাইড</span>
-                        <span className="text-sm text-gray-900">{user.emailVerified ? "হ্যাঁ" : "না"}</span>
+                    <div className = "flex justify-between py-2 border-b border-gray-100">
+                        <span className = "text-sm text-gray-500">ইমেইল ভেরিফাইড</span>
+                        <span className = "text-sm text-gray-900">{user.emailVerified ? "হ্যাঁ" : "না"}</span>
                     </div>
 
-                    <div className="flex justify-between py-2">
-                        <span className="text-sm text-gray-500">অ্যাকাউন্ট তৈরি</span>
-                        <span className="text-sm text-gray-900">{user.createdAt? new Date(user.createdAt).toLocaleDateString("bn-BD",{ year: "numeric", month: "long", day: "numeric",}): "—"} </span>
+                    <div className = "flex justify-between py-2">
+                        <span className = "text-sm text-gray-500">অ্যাকাউন্ট তৈরি</span>
+                        <span className = "text-sm text-gray-900">{user.createdAt? new Date(user.createdAt).toLocaleDateString("bn-BD",{ year: "numeric", month: "long", day: "numeric",}): "—"} </span>
                     </div>
                 </div>
             </div>
