@@ -44,7 +44,7 @@ export default async function ProductDetailsPage({params} : Props){
                         <div className = "w-20 h-20 rounded-full bg-gray-50 flex items-center justify-center text-5xl shrink-0">{product.image}</div>
                         <div >
                             <h1 className = "text-2xl font-bold text-gray-900 mb-1">{product.nameBn}</h1>
-                            <p className = "text-sm text-gray-500 mb-2">{product.categoryNameBn} · {unitToBengali(product.unit)}</p>
+                            <p className = "text-sm text-gray-500 mb-2">{product.categoryNameBn} - {unitToBengali(product.unit)}</p>
                             <p className = "text-sm text-gray-600 mb-3">সর্বনিম্ন {toBengaliNumber(minPrice)} টাকা | সর্বোচ্চ {toBengaliNumber(maxPrice)} টাকা | গড় {toBengaliNumber(avgPrice)} টাকা</p>
                             <div className = "flex flex-wrap gap-2">
                             <span className = "bg-green-100 text-green-700 text-xs font-medium px-2.5 py-1 rounded-full">{product.categoryNameBn}</span>
@@ -69,26 +69,28 @@ export default async function ProductDetailsPage({params} : Props){
 
 
             {/*price summary*/}
-            <div className = "grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-                <div className = "bg-white border border-gray-200 rounded-lg p-4">
-                    <p className = "text-xs text-gray-500 mb-1">সর্বনিম্ন দাম</p>
-                    <p className = "text-xl font-bold text-green-700">{toBengaliNumber(minPrice)} টাকা</p>
-                    <p className = "text-xs text-gray-400 mt-1">বাজারের সর্বনিম্ন</p>
-                </div>
+            <div className = "mb-6">
+                <h2 className = "text-lg font-bold text-gray-900 mb-4">দামের সারসংক্ষেপ</h2>
+                <div className = "grid grid-cols-1 sm:grid-cols-3 gap-4 ">
+                    <div className = "bg-white border border-gray-200 rounded-lg p-4">
+                        <p className = "text-xs text-gray-500 mb-1">সর্বনিম্ন দাম</p>
+                        <p className = "text-xl font-bold text-green-700">{toBengaliNumber(minPrice)} টাকা</p>
+                        <p className = "text-xs text-gray-400 mt-1">সবচেয়ে কম দামের বাজার</p>
+                    </div>
 
-                <div className = "bg-white border border-gray-200 rounded-lg p-4">
-                    <p className = "text-xs text-gray-500 mb-1">সর্বোচ্চ দাম</p>
-                    <p className = "text-xl font-bold text-red-600">{toBengaliNumber(maxPrice)} টাকা</p>
-                    <p className = "text-xs text-gray-400 mt-1">বাজারের সর্বোচ্চ</p>
-                </div>
+                    <div className = "bg-white border border-gray-200 rounded-lg p-4">
+                        <p className = "text-xs text-gray-500 mb-1">সর্বোচ্চ দাম</p>
+                        <p className = "text-xl font-bold text-red-600">{toBengaliNumber(maxPrice)} টাকা</p>
+                        <p className = "text-xs text-gray-400 mt-1">সবচেয়ে বেশি দামের বাজার</p>
+                    </div>
 
-                <div className = "bg-white border border-gray-200 rounded-lg p-4">
-                    <p className = "text-xs text-gray-500 mb-1">গড় দাম</p>
-                    <p className = "text-xl font-bold text-gray-900">{toBengaliNumber(avgPrice)} টাকা </p>
-                    <p className = "text-xs text-gray-400 mt-1">সব বাজারের গড়</p>
+                    <div className = "bg-white border border-gray-200 rounded-lg p-4">
+                        <p className = "text-xs text-gray-500 mb-1">গড় দাম</p>
+                        <p className = "text-xl font-bold text-gray-900">{toBengaliNumber(avgPrice)} টাকা </p>
+                        <p className = "text-xs text-gray-400 mt-1">সব বাজারের গড়</p>
+                    </div>
                 </div>
             </div>
-
 
             {/* maret price table */}
             <div className = "bg-white border border-gray-200 rounded-lg overflow-hidden">
@@ -105,23 +107,24 @@ export default async function ProductDetailsPage({params} : Props){
                                 <th className = "text-left px-6 py-3">বিভাগ</th>
                                 <th className = "text-right px-6 py-3">সর্বনিম্ন</th>
                                 <th className = "text-right px-6 py-3">সর্বোচ্চ</th>
+                                <th className = "text-right px-6 py-3">গড়</th>
                             </tr>
                         </thead>
 
-                        <tbody className = "divide-y divide-gray-100">{product.markets.map((market, idx) =>(<tr key={idx} className = "hover:bg-gray-50">
+                        <tbody className = "divide-y divide-gray-100">{product.markets.map((market, idx) =>{
+                            const marketAvg = Math.round((market.min + market.max) / 2);
+                            return(
+                            <tr key={idx} className = "hover:bg-gray-50">
                             <td className = "px-6 py-3 text-sm text-gray-900">{market.market}</td>
                             <td className = "px-6 py-3 text-sm text-gray-600">{market.division}</td>
                             <td className = "px-6 py-3 text-sm text-right font-medium text-green-700">{toBengaliNumber(market.min)} টাকা</td>
                             <td className = "px-6 py-3 text-sm text-right font-medium text-red-600">{toBengaliNumber(market.max)} টাকা</td>
+                            <td className = "px-6 py-3 text-sm text-right font-medium text-gray-900">{toBengaliNumber(marketAvg)} টাকা</td>
                           </tr>
-                        ))}
-                        </tbody>
+                        );
+                        })}
+                      </tbody>
                     </table>
-                </div>
-
-                {/* footer */}
-                <div className = "px-6 py-3 bg-gray-50 border-t border-gray-100">
-                    <p className = "text-xs text-gray-500 text-center">সকল দাম সম্ভাব্য; বাজার অবস্থার ওপর নির্ভর করে পরিবর্তিত হয়।</p>
                 </div>
             </div>
         </main>

@@ -5,7 +5,8 @@ import "./globals.css";
 // here navbar is imported
 // priceTicker is imported
 import Navbar from "@/components/Navbar";
-import PriceTicker from "@/components/PriceTicker";
+import PriceTicker from "@/components/PriceTicker"; 
+import Footer from "@/components/Footer";
 import { Toaster } from "react-hot-toast";
 
 const hindSiliguri = Hind_Siliguri({
@@ -27,11 +28,13 @@ export default function RootLayout({
 }>){
   return(
     <html lang = "bn">
-      <body className={`${hindSiliguri.variable} font-sans antialiased`}>
+      <body className={`${hindSiliguri.variable} font-sans antialiased min-h-screen flex flex-col`}>
         {/* navbar will be on all page */}
         <Navbar />
         <PriceTicker/>
-        {children}
+        <main className = "flex-grow"> {children}</main>
+        <Footer/>
+       
         <Toaster position = "top-center" toastOptions={{duration: 3000, style : {fontFamily : "var(--font-hind-siliguri)",},}}/>
       </body>
     </html>

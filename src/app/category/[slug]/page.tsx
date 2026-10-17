@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getProductsByCategory, getAllCategories } from "@/lib/api";
 import ProductCard from "@/components/ProductCard";
+import CategoryProducts from "@/components/CategoryProducts";
 
 interface Props{
     params : Promise<{ slug :string}>;
@@ -24,7 +25,7 @@ export default async function CategoryPage({ params } : Props){
             {/* breadcrumb */}
             <nav className = "text-sm text-gray-500 mb-4">
                 <Link href = "/" className = "hover:text-green-700"> হোম </Link>
-                <span className = "mx-2"> / </span>
+                <span>›</span>
                 <span className = "text-gray-900"> {category.name} </span>
             </nav>
 
@@ -37,7 +38,7 @@ export default async function CategoryPage({ params } : Props){
                 </div>
             </div>
 
-            {/* grid */}
+            {/* product list */}
             {products.length === 0?(
                 <div className = "text-center py-16 bg-gray-50 rounded-lg">
                     <p className = "text-4xl mb-3"> 🛒 </p>
@@ -45,7 +46,7 @@ export default async function CategoryPage({ params } : Props){
                     <Link href = "/" className = "inline-block bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-md text-sm">হোম পেজে ফিরে যান</Link>
                 </div>
             ):(
-                <div className = "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">{products.map((product) => (<ProductCard key = {product.id} product={product} />))}</div>
+                <CategoryProducts initialProducts={products}/>
             )}
         </main>
     );

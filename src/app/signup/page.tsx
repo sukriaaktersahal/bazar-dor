@@ -15,6 +15,7 @@ export default function SignUpPage(){
         name : "",
         email : "",
         password : "",
+        confirmPassword : "",
 });
 
 // handle change function
@@ -33,6 +34,10 @@ async function handleSubmit(e:React.FormEvent){
     }
     if(formData.password.length < 8){
       toast.error("পাসওয়ার্ড কমপক্ষে ৮ অক্ষরের হতে হবে");
+      return;
+    }
+    if(formData.password !== formData.confirmPassword){
+      toast.error("পাসওয়ার্ড দুটি মিলছে না");
       return;
     }
     setLoading(true);
@@ -55,27 +60,21 @@ async function handleSubmit(e:React.FormEvent){
   async function handleGoogleSignUp(){
     try{
       setLoading(true);
-      await signIn.social({
-        provider : "google",
-        callbackURL: "/",
-      });
-    }catch{
-      toast.error("Google দিয়ে রেজিস্ট্রেশন ব্যর্থ হয়েছে");
-      setLoading(false);
-    }
+      await signIn.social({provider : "google", callbackURL: "/",});
+        }catch{
+          toast.error("Google দিয়ে রেজিস্ট্রেশন ব্যর্থ হয়েছে");
+          setLoading(false);
+      }
   }
 
     // social sign up - github
     async function handleGithubSignUp(){
         try{
         setLoading(true);
-        await signIn.social({
-            provider: "github",
-            callbackURL: "/",
-        });
-        }catch{
-        toast.error("GitHub দিয়ে সাইন আপ ব্যর্থ হয়েছে");
-        setLoading(false);
+        await signIn.social({provider: "github", callbackURL: "/",});
+          }catch{
+          toast.error("GitHub দিয়ে সাইন আপ ব্যর্থ হয়েছে");
+          setLoading(false);
         }
     }
 
@@ -124,6 +123,17 @@ async function handleSubmit(e:React.FormEvent){
                         className = "w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent" />
             </div>
 
+            {/* confirm password */}
+            <div>
+              <label className = "block text-sm font-medium text-gray-700 mb-1">পাসওয়ার্ড নিশ্চিত করুন</label>
+              <input  type = "password"
+                      name = "confirmPassword"
+                      value = {formData.confirmPassword}
+                      onChange = {handleChange}
+                      placeholder = "আবার পাসওয়ার্ড দিন"
+                      className = "w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"/>
+            </div>
+
             {/* submit button */}
                 <button type = "submit"
                         disabled = {loading}
@@ -169,7 +179,7 @@ async function handleSubmit(e:React.FormEvent){
             </button>
 
           {/* login linkk */}
-          <p className = "text-center text-sm text-gray-600 mt-6">আগে থেকেই অ্যাকাউন্ট আছে?{" "}
+          <p className = "text-center text-sm text-gray-600 mt-6">অ্যাকাউন্ট আছে?{" "}
             <Link href = "/signin" className = "text-green-700 font-medium hover:underline">সাইন ইন করুন</Link>
           </p>
         </div>

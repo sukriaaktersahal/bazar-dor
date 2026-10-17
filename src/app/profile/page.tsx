@@ -3,18 +3,53 @@
 
 import {useEffect, useState} from "react";
 import {useRouter} from "next/navigation";
-import Link from "next/link";
-import {useSession } from "@/lib/auth-client";
-import { toBengaliNumber } from "@/lib/format";
+import {useSession, signOut, authClient } from "@/lib/auth-client";
+import toast from "react-hot-toast";
 
 // profile page function
 export default function ProfilePage(){
     const {data : session, isPending} = useSession();
     const router = useRouter();
+    const [loading, setLoading] = useState(false);
+    const [name, setName] = useState(session?.user?.name || "");
 
     // if no session
-    useEffect(()=> { if (!isPending && !session){
-      router.push("/signin?redirect=/profile");}}, [session, isPending, router]);
+    useEffect(()=> { if(!isPending && !session){
+      router.push("/signin?redirect=/profile");
+    }
+    
+    if(session?.user?.name) {
+      setName(session.user.name);
+    }
+    }, [session, isPending, router]);
+
+    // update handler
+    async function handleUpdate(e: React.FormEvent){
+        e.preventDefault();
+        if(!name.trim()){
+            toast.error("নাম খালি রাখা যাবে না");
+            return;
+        }
+        setLoading(true);
+        const { error } = await authClient.updateUser({ name: name.trim() });
+        setLoading(false);
+
+        if(error){
+        toast.error(error.message || "আপডেট ব্যর্থ হয়েছে");
+        return;
+        }
+
+        toast.success("প্রোফাইল সফলভাবে আপডেট হয়েছে!");
+    }
+
+    // sign out handler
+    async function handleSignOut(){
+        await signOut();
+        toast.success("সফলভাবে সাইন আউট হয়েছে");
+        router.push("/");
+        router.refresh();
+        
+    }
 
     // loading state
     if(isPending){
@@ -48,39 +83,46 @@ export default function ProfilePage(){
             </div>
 
             {/* profile card */}
-            <div className ="bg-white border border-gray-200 rounded-lg p-6 shadow-sm mb-6">
+            <div className ="bg-white border border-gray-200 rounded-lg p-6 shadow-sm mb-6 flex items-center justify-between gap-4">
                 <div className ="flex items-center gap-4">
                     <div className = "w-16 h-16 rounded-full bg-green-600 text-white flex items-center justify-center text-2xl font-bold">{initial}</div>
-                    <div className = "flex-1">
-                        <h2 className = "text-lg font-semibold text-gray-900">{user.name || "নাম নেই"}</h2>
+                    <div>
+                        <h2 className = "text-lg font-bold text-gray-900">{user.name || "নাম নেই"}</h2>
                         <p className = "text-sm text-gray-500">{user.email}</p>
                     </div>
-                    <Link href ="/profile/update" className ="text-sm font-medium text-white bg-green-600 hover:bg-green-700 px-4 py-2 rounded-md transition-colors">আপডেট করুন</Link>
                 </div>
+            
+
+            {/* signout button */}
+            <button onClick = {handleSignOut}
+                    className = "border border-red-200 text-red-600 hover:bg-red-50 text-sm font-medium px-4 py-2 rounded-md transition-colors flex items-center gap-2">
+                    <span>↪</span> সাইন আউট
+            </button>
             </div>
+
+            {/*  */}
 
             {/* account info card */}
             <div className = "bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
-                <h3 className = "font-semibold text-gray-900 mb-4">অ্যাকাউন্ট তথ্য</h3>
-                <div className = "space-y-3">
-                    <div className = "flex justify-between py-2 border-b border-gray-100">
-                        <span className = "text-sm text-gray-500">ইউজার আইডি</span>
-                        <span className = "text-sm text-gray-900 font-mono truncate max-w-xs">{user.id}</span>
+                <h3 className = "font-semibold text-gray-900 mb-4">তথ্য আপডেট করুন</h3>
+                <form onSubmit = {handleUpdate} className = "space-y-4">
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">নাম</label>
+                        <input  type = "text"
+                                value = {name}
+                                onChange = {(e)=> setName(e.target.value)}
+                                placeholder = "আপনার নাম"
+                                className = "w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"/>
+                        
                     </div>
-
-                    <div className = "flex justify-between py-2 border-b border-gray-100">
-                        <span className = "text-sm text-gray-500">ইমেইল ভেরিফাইড</span>
-                        <span className = "text-sm text-gray-900">{user.emailVerified ? "হ্যাঁ" : "না"}</span>
-                    </div>
-
-                    <div className = "flex justify-between py-2">
-                        <span className = "text-sm text-gray-500">অ্যাকাউন্ট তৈরি</span>
-                        <span className = "text-sm text-gray-900">{user.createdAt? new Date(user.createdAt).toLocaleDateString("bn-BD",{ year: "numeric", month: "long", day: "numeric",}): "—"} </span>
-                    </div>
-                </div>
+                    
+                    <button type = "submit"
+                            disabled = {loading}
+                            className = "w-full bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white font-medium py-2.5 rounded-md transition-colors">
+                            {loading ? "আপডেট হচ্ছে..." : "আপডেট করুন"}
+                    </button>
+                </form>
             </div>
-        </main>
-    );
+    </main>
+  );
 }
-
- 

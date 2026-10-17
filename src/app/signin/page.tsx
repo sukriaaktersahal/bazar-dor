@@ -148,6 +148,7 @@ function SignInForm(){
 
           </div>
 
+            {/*  */}
             <button type = "button"
                     onClick = {handleGoogleSignIn}
                     disabled = {loading}

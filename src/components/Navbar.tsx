@@ -27,6 +27,7 @@ export default function Navbar(){
 
   const today = new Date();
   const banglaDate = today.toLocaleDateString("bn-BD",{
+    timeZone : "Asia/Dhaka",
     year : "numeric",
     month : "long",
     day : "numeric",
