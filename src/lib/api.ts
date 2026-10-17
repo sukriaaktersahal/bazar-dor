@@ -35,10 +35,10 @@ export async function getProductsByCategory(slug : string) : Promise<Product[]>{
 
 // get product data by id/slug
 export async function getProductBySlug(slug : string) : Promise<Product | null> {
-  try {
-    const data = await fetchWithFallback(`/products/${slug}`);
-    if(Array.isArray(data)) return data[0] || null;
-    return data.product || data.data || null;
+  try{
+    const allProducts = await getAllProducts();
+    const found = allProducts.find((p)=> p.slug === slug);
+    return found || null;
   }catch{
     return null;
   }

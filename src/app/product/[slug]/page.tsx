@@ -16,6 +16,7 @@ export default async function ProductDetailsPage({params} : Props){
     if(!product){
     notFound();
   }
+
 //   calculating min., max.
     const marketPrices = product.markets.map((m)=> (m.min + m.max) / 2);
     const avgPrice = marketPrices.length > 0? Math.round(marketPrices.reduce((a, b)=> a + b, 0) / marketPrices.length) : product.today;
@@ -27,9 +28,9 @@ export default async function ProductDetailsPage({params} : Props){
             {/* breadcrumb */}
             <nav className = "text-sm text-gray-500 mb-4 flex items-center gap-2 flex-wrap">
                 <Link href="/" className = "hover:text-green-700"> হোম </Link>
-                <span>/</span>
+                <span>›</span>
                 <Link href = {`/category/${product.category}`} className = "hover:text-green-700">{product.categoryNameBn}</Link>
-                <span>/</span>
+                <span>›</span>
                 <span className = "text-gray-900">{product.nameBn}</span>
             </nav>
 
@@ -39,11 +40,12 @@ export default async function ProductDetailsPage({params} : Props){
                 <div className = "flex items-start justify-between gap-4 flex-wrap">
 
                     {/* left side */}
-                    <div className = "flex items-start gap-4">
-                        <div className = "w-20 h-20 rounded-full bg-gray-50 flex items-center justify-center text-5xl flex-shrink-0">{product.image}</div>
+                    <div className = "flex items-start gap-4 flex-1">
+                        <div className = "w-20 h-20 rounded-full bg-gray-50 flex items-center justify-center text-5xl shrink-0">{product.image}</div>
                         <div >
                             <h1 className = "text-2xl font-bold text-gray-900 mb-1">{product.nameBn}</h1>
-                            <p className = "text-sm text-gray-500 mb-3">{product.categoryNameBn}.{unitToBengali(product.unit)}</p>
+                            <p className = "text-sm text-gray-500 mb-2">{product.categoryNameBn} · {unitToBengali(product.unit)}</p>
+                            <p className = "text-sm text-gray-600 mb-3">সর্বনিম্ন {toBengaliNumber(minPrice)} টাকা | সর্বোচ্চ {toBengaliNumber(maxPrice)} টাকা | গড় {toBengaliNumber(avgPrice)} টাকা</p>
                             <div className = "flex flex-wrap gap-2">
                             <span className = "bg-green-100 text-green-700 text-xs font-medium px-2.5 py-1 rounded-full">{product.categoryNameBn}</span>
                             <span className = "bg-gray-100 text-gray-700 text-xs font-medium px-2.5 py-1 rounded-full">{unitToBengali(product.unit)}</span>
@@ -52,11 +54,12 @@ export default async function ProductDetailsPage({params} : Props){
                     </div>
 
                     {/* right side */}
-                    <div className = "text-right">
+                    <div className = "bg-green-50 border border-green-100 rounded-lg p-4 min-w-[160px] text-right">
                         <p className = "text-xs text-gray-500 mb-1">আজকের দাম</p>
                         <p className = "text-3xl font-bold text-gray-900">{toBengaliNumber(product.today)}{" "}
                             <span className = "text-base font-medium">টাকা</span>
                         </p>
+                        <p className = "text-xs text-gray-500 mt-1">প্রতি {unitToBengali(product.unit).replace("প্রতি ", "")}</p>
                         <span className = {`inline-block mt-2 text-xs font-semibold px-2 py-1 rounded ${getChangeColor(product.change.dir)}`}>
                             {formatChange(product.change.pct, product.change.dir)}
                         </span>
@@ -98,7 +101,7 @@ export default async function ProductDetailsPage({params} : Props){
                     <table className = "w-full">
                         <thead className = "bg-gray-50 text-xs text-gray-500 uppercase">
                             <tr>
-                                <th className = "text-left px-6 py-3">বাজার</th>
+                                <th className = "text-left px-6 py-3">বাজারের নাম</th>
                                 <th className = "text-left px-6 py-3">বিভাগ</th>
                                 <th className = "text-right px-6 py-3">সর্বনিম্ন</th>
                                 <th className = "text-right px-6 py-3">সর্বোচ্চ</th>
@@ -114,6 +117,11 @@ export default async function ProductDetailsPage({params} : Props){
                         ))}
                         </tbody>
                     </table>
+                </div>
+
+                {/* footer */}
+                <div className = "px-6 py-3 bg-gray-50 border-t border-gray-100">
+                    <p className = "text-xs text-gray-500 text-center">সকল দাম সম্ভাব্য; বাজার অবস্থার ওপর নির্ভর করে পরিবর্তিত হয়।</p>
                 </div>
             </div>
         </main>
